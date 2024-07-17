@@ -1,0 +1,20 @@
+name: Re-usable workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+    # inherited secrets
+
+jobs:
+  test-workflow-job:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: print out secret
+        run: |
+          echo "printing from re-usable workflow ..."
+          echo "env: ${{ inputs.environment }}"
+          echo ${{ secrets.MY_SECRET }} | sed 's/./& /g'

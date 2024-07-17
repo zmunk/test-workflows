@@ -1,0 +1,22 @@
+name: Caller workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-reusable-workflow:
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      environment: development
+    secrets: inherit
+
+  print-secret-from-caller:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: print out secret
+        run: |
+          echo "printing from caller ..."
+          echo ${{ secrets.MY_SECRET }} | sed 's/./& /g'
